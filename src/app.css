@@ -1,0 +1,170 @@
+html {
+  box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+.homeWrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.btnWrapper {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnGrid {
+  width: fit-content;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto auto;
+  grid-gap: 10px;
+}
+
+.labelGrid {
+  width: fit-content;
+  height: inherit;
+  display: grid;
+  gap: 10px;
+}
+
+.bottomLabelGrid {
+  margin: 2% 0;
+  width: 380px;
+  height: inherit;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
+  align-items: center;
+  gap: 5px;
+}
+
+.bottomCounter {
+  width: 30px;
+  height: fit-content;
+  text-align: center;
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+}
+
+.commandBtn {
+  width: 30px;
+  height: 35px;
+  background: green;
+  border-radius: 5px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.counter {
+  width: 30px;
+  height: 35px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-weight: bold;
+  margin: 0;
+}
+
+.start {
+  background-color: green;
+  color: white;
+  font-weight: bold;
+  padding: 5px 20px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.viewBtnWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.viewBtns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 15px;
+}
+
+.viewBtn {
+  width: fit-content;
+  background: green;
+  border-radius: 5px;
+  padding: 5px 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.viewBtnResult {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 10px;
+}
+
+.makeMeBolder {
+  font-weight: bolder;
+}
+
+.makeMeDisable {
+  background-color: rgb(161, 161, 161);
+  cursor: none;
+  color: rgb(95, 91, 91);
+}
+
+.bottomBtnwrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  align-self: flex-end;
+  margin: 0 2%;
+}
+
+.questionBtn {
+  background-color: green;
+  color: white;
+  width: 50px;
+  text-align: center;
+  border-radius: 5px;
+  padding: 1px 0;
+  margin-top: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.neighbourBtn {
+  background-color: blue;
+}
+
+.neighbourInsideBtn {
+  background-color: red;
+}
