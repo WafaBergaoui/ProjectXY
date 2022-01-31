@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Button from "./components/Button";
-import ViewButton from "./components/ViewButton";
-import ViewButtonResult from "./components/ViewButtonResult";
-import "./app.css";
+import Button from "./Button";
+import ViewButton from "./ViewButton";
+import ViewButtonResult from "./ViewButtonResult";
+import "../app.css";
 
 /* 
 I thought that only Home component needs a comment and 
@@ -18,7 +18,7 @@ const populateBtnList = () => {
   return temp;
 };
 
-const Home = () => {
+const Play = () => {
   const LeftCounter = [8, 7, 6, 5, 4, 3, 2, 1]; // Y axsis numbers
   const bottomCounter = [1, 2, 3, 4, 5, 6, 7, 8]; // X axsis numbers
   const [startMessage, setStartMessage] = useState("Start"); // command messages:- start or choose or M or A
@@ -679,4 +679,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Play;
