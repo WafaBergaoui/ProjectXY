@@ -18,15 +18,6 @@ const initialState = {
       ? JSON.parse(localStorage.getItem('userInfo'))
       : null,
   },
-  cart: {
-    cartItems: localStorage.getItem('cartItems')
-      ? JSON.parse(localStorage.getItem('cartItems'))
-      : [],
-    shippingAddress: localStorage.getItem('shippingAddress')
-      ? JSON.parse(localStorage.getItem('shippingAddress'))
-      : {},
-    paymentMethod: 'PayPal',
-  },
 };
 const reducer = combineReducers({
   userSignin: userSigninReducer,
@@ -37,7 +28,6 @@ const reducer = combineReducers({
   userList: userListReducer,
   userDelete: userDeleteReducer,
   userTopSellersList: userTopSellerListReducer,
-
   userAddressMap: userAddressMapReducer,
 });
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { register } from "../actions/userActions";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
@@ -10,6 +10,21 @@ export default function Register(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
+
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, error } = userRegister;
+
+  const dispatch = useDispatch();
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Password and confirm password are not match");
+    } else {
+      dispatch(register(name, email, password));
+    }
+    navigate("/");
+  };
 
   return (
     <div
@@ -20,23 +35,24 @@ export default function Register(props) {
         height: "100vh",
       }}
     >
-      <form className="form">
+      <form className="form" onSubmit={submitHandler}>
         <div>
-          <h1>Create Account</h1>
+          <h1>Sign Up</h1>
         </div>
-
+        {loading && <LoadingBox></LoadingBox>}
+        {error && <MessageBox variant="danger">{error}</MessageBox>}
         <div>
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">Username</label>
           <input
             type="text"
             id="name"
-            placeholder="Enter name"
+            placeholder="Enter username"
             required
             onChange={(e) => setName(e.target.value)}
           ></input>
         </div>
         <div>
-          <label htmlFor="email">Email address</label>
+          <label htmlFor="email">Email Address</label>
           <input
             type="email"
             id="email"
@@ -65,16 +81,17 @@ export default function Register(props) {
             onChange={(e) => setConfirmPassword(e.target.value)}
           ></input>
         </div>
+
         <div>
           <label />
           <button className="primary" type="submit">
-            Register
+            Sign Up
           </button>
         </div>
         <div>
           <label />
           <div>
-            Already have an account? <Link to={`/signin`}>Sign-In</Link>
+            Already have an account? <Link to={`/signin`}>Sign In</Link>
           </div>
         </div>
       </form>

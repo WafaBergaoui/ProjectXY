@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { signout } from "./actions/userActions";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
@@ -6,6 +8,13 @@ import Register from "./components/Register";
 import Play from "./components/Play";
 
 const App = () => {
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
+  const dispatch = useDispatch();
+
+  const signoutHandler = () => {
+    dispatch(signout());
+  };
 
   return (
     <div>
@@ -26,20 +35,29 @@ const App = () => {
                   </li>
                 </ul>
               </div>
-              <Link to="/signin">BTN2</Link>
-              <Link to="/signin">BTN3</Link>
-              <Link to="/signin">BTN4</Link>
-              <Link to="/signin">BTN5</Link>
-              <Link to="/signin">SignIn</Link>
+
+              <Link to="/">BTN2</Link>
+              <Link to="/">BTN3</Link>
+              <Link to="/">BTN4</Link>
+              <Link to="/">BTN5</Link>
+
+              {userInfo ? (
+                <Link to="#signout" onClick={signoutHandler}>
+                  Sign Out
+                </Link>
+              ) : (
+                <Link to="/signin">Sign In</Link>
+              )}
             </div>
           </header>
         </div>
+
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/play" element={<Play />} />
-            <Route path="/signin" element={<Login />}></Route>
-            <Route path="/register" element={<Register />}></Route>
+            <Route path="/signin" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </main>
       </Router>

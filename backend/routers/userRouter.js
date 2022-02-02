@@ -73,6 +73,7 @@ userRouter.get(
     }
   })
 );
+
 userRouter.put(
   '/profile',
   isAuth,
