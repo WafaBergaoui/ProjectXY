@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { register } from "../actions/userActions";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
+import { MDBCheckbox } from "mdb-react-ui-kit";
 
 export default function Register(props) {
   const [name, setName] = useState("");
@@ -27,9 +28,7 @@ export default function Register(props) {
   };
 
   return (
-    <div
-   
-    >
+    <div>
       <form className="form" onSubmit={submitHandler}>
         <div>
           <h1>Sign Up</h1>
@@ -75,6 +74,14 @@ export default function Register(props) {
             required
             onChange={(e) => setConfirmPassword(e.target.value)}
           ></input>
+        </div>
+        <div>
+          <MDBCheckbox
+            name="flexCheck"
+            value=""
+            id="flexCheckChecked"
+            label=" Subscribe to our newsletter"
+          />
         </div>
 
         <div>
