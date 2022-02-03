@@ -22,6 +22,7 @@ const App = () => {
         <div className="grid-container">
           <header className="row">
             <div>
+              
               <div className="dropdown">
                 <Link to="#">
                   Play <i class="fa fa-caret-down"></i>
@@ -36,18 +37,19 @@ const App = () => {
                 </ul>
               </div>
 
-              <Link to="/">BTN2</Link>
-              <Link to="/">BTN3</Link>
-              <Link to="/">BTN4</Link>
-              <Link to="/">BTN5</Link>
+              <Link to="/">Btn2</Link>
+              <Link to="/">Btn3</Link>
+              <Link to="/">Btn4</Link>
+              <Link to="/">Btn5</Link>
 
               {userInfo ? (
                 <Link to="#signout" onClick={signoutHandler}>
-                  Sign Out
+                  SignOut
                 </Link>
               ) : (
-                <Link to="/signin">Sign In</Link>
+                <Link to="/signin">SignIn</Link>
               )}
+
             </div>
           </header>
         </div>

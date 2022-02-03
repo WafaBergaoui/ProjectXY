@@ -28,12 +28,7 @@ export default function Register(props) {
 
   return (
     <div
-      style={{
-        display: "flex",
-        justifyContent: "Right",
-        alignItems: "Right",
-        height: "100vh",
-      }}
+   
     >
       <form className="form" onSubmit={submitHandler}>
         <div>
