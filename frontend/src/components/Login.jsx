@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { signin } from "../actions/userActions";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
@@ -11,13 +11,11 @@ const Login = (props) => {
 
   const userSignin = useSelector((state) => state.userSignin);
   const { loading, error } = userSignin;
-  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(signin(email, password));
-    navigate("/");
   };
 
   return (
@@ -35,7 +33,7 @@ const Login = (props) => {
           <input
             type="email"
             id="email"
-            placeholder="Enter email"
+            placeholder="email"
             required
             onChange={(e) => setEmail(e.target.value)}
           ></input>
@@ -45,7 +43,7 @@ const Login = (props) => {
           <input
             type="password"
             id="password"
-            placeholder="Enter password"
+            placeholder="password"
             required
             onChange={(e) => setPassword(e.target.value)}
           ></input>

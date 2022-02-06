@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { register } from "../actions/userActions";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { MDBCheckbox } from "mdb-react-ui-kit";
+
 
 export default function Register(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const navigate = useNavigate();
 
   const userRegister = useSelector((state) => state.userRegister);
   const { loading, error } = userRegister;
@@ -24,7 +24,6 @@ export default function Register(props) {
     } else {
       dispatch(register(name, email, password));
     }
-    navigate("/");
   };
 
   return (
@@ -40,7 +39,7 @@ export default function Register(props) {
           <input
             type="text"
             id="name"
-            placeholder="Enter username"
+            placeholder="username"
             required
             onChange={(e) => setName(e.target.value)}
           ></input>
@@ -50,7 +49,7 @@ export default function Register(props) {
           <input
             type="email"
             id="email"
-            placeholder="Enter email"
+            placeholder="email"
             required
             onChange={(e) => setEmail(e.target.value)}
           ></input>
@@ -60,7 +59,7 @@ export default function Register(props) {
           <input
             type="password"
             id="password"
-            placeholder="Enter password"
+            placeholder="password"
             required
             onChange={(e) => setPassword(e.target.value)}
           ></input>
@@ -70,7 +69,7 @@ export default function Register(props) {
           <input
             type="password"
             id="confirmPassword"
-            placeholder="Enter confirm password"
+            placeholder="confirm password"
             required
             onChange={(e) => setConfirmPassword(e.target.value)}
           ></input>

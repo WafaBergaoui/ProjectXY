@@ -6,6 +6,7 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Play from "./components/Play";
+import Welcome from "./components/Welcome";
 
 const App = () => {
   const userSignin = useSelector((state) => state.userSignin);
@@ -22,7 +23,6 @@ const App = () => {
         <div className="grid-container">
           <header className="row">
             <div>
-              
               <div className="dropdown">
                 <Link to="#">
                   Play <i class="fa fa-caret-down"></i>
@@ -49,7 +49,6 @@ const App = () => {
               ) : (
                 <Link to="/signin">SignIn</Link>
               )}
-
             </div>
           </header>
         </div>
@@ -60,6 +59,7 @@ const App = () => {
             <Route path="/play" element={<Play />} />
             <Route path="/signin" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/confirm/:confirmationCode" element={<Welcome />} />
           </Routes>
         </main>
       </Router>

@@ -1,81 +1,120 @@
-import express from 'express';
-import expressAsyncHandler from 'express-async-handler';
-import bcrypt from 'bcryptjs';
-import User from '../models/userModel.js';
-import { generateToken, isAuth } from '../utils.js';
+import express from "express";
+import expressAsyncHandler from "express-async-handler";
+import bcrypt from "bcryptjs";
+import dotenv from "dotenv";
+import User from "../models/userModel.js";
+import { generateToken, isAuth } from "../utils.js";
+import jwt from "jsonwebtoken";
+import { sendConfirmationEmail } from "../config/nodemailer.js";
+
+dotenv.config();
 
 const userRouter = express.Router();
 
-userRouter.get(
-  '/top-sellers',
-  expressAsyncHandler(async (req, res) => {
-    const topSellers = await User.find({ isSeller: true })
-      .sort({ 'seller.rating': -1 })
-      .limit(3);
-    res.send(topSellers);
-  })
-);
-
-/*userRouter.get(
-  '/seed',
-  expressAsyncHandler(async (req, res) => {
-    // await User.remove({});
-    const createdUsers = await User.insertMany(data.users);
-    res.send({ createdUsers });
-  })
-);*/
-
 userRouter.post(
-  '/signin',
+  "/signin",
   expressAsyncHandler(async (req, res) => {
-    const user = await User.findOne({ email: req.body.email });
-    if (user) {
-      if (bcrypt.compareSync(req.body.password, user.password)) {
-        res.send({
-          _id: user._id,
-          name: user.name,
-          email: user.email,
-          token: generateToken(user),
-        });
-        return;
-      }
+    User.findOne({ email: req.body.email })
+    res.status(401).send({ message: "Invalid email or password" });
+    var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+
+    if (!user) {
+      return res.status(404).send({ message: "User Not found." });
     }
-    res.status(401).send({ message: 'Invalid email or password' });
+
+    if (!passwordIsValid) {
+      return res.status(401).send({
+        accessToken: null,
+        message: "Invalid Password!",
+      });
+    }
+
+    if (user.status != "Active") {
+      return res.status(401).send({
+        message: "Pending Account. Please Verify Your Email!",
+      });
+    }
+
+    res.status(200).send({
+      name: user.name,
+      email: user.email,
+      accessToken: generateToken(user),
+      status: user.status,
+    });
   })
 );
 
 userRouter.post(
-  '/register',
+  "/register",
   expressAsyncHandler(async (req, res) => {
+    const token = jwt.sign({ email: req.body.email }, process.env.JWT_SECRET);
+
     const user = new User({
       name: req.body.name,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 8),
+      confirmationCode: token,
     });
-    const createdUser = await user.save();
-    res.send({
-      _id: createdUser._id,
-      name: createdUser.name,
-      email: createdUser.email,
-      token: generateToken(createdUser),
+
+    user.save((err, user) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+
+      user.save((err) => {
+        if (err) {
+          res.status(500).send({ message: err });
+          return;
+        }
+        res.send({
+          message: "User was registered successfully! Please check your email",
+        });
+
+        sendConfirmationEmail(user.name, user.email, user.confirmationCode);
+      });
     });
   })
 );
 
 userRouter.get(
-  '/:id',
+  "/confirm/:confirmationCode",
+  expressAsyncHandler(async (req, res, next) => {
+    const user = await User.findOne({
+      confirmationCode: req.params.confirmationCode,
+    });
+    if (!user) {
+      return res.status(404).send({ message: "User Not found." });
+    }
+    user.status = "Active";
+    user.save((err) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+    });
+  })
+);
+
+userRouter.get(
+  "/:id",
   expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
     if (user) {
       res.send(user);
     } else {
-      res.status(404).send({ message: 'User Not Found' });
+      res.status(404).send({ message: "User Not Found" });
     }
   })
 );
 
 userRouter.put(
-  '/profile',
+  "/profile",
   isAuth,
   expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
@@ -103,7 +142,7 @@ userRouter.put(
 );
 
 userRouter.get(
-  '/',
+  "/",
   isAuth,
   expressAsyncHandler(async (req, res) => {
     const users = await User.find({});
@@ -112,25 +151,25 @@ userRouter.get(
 );
 
 userRouter.delete(
-  '/:id',
+  "/:id",
   isAuth,
   expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
     if (user) {
-      if (user.email === 'admin@example.com') {
-        res.status(400).send({ message: 'Can Not Delete Admin User' });
+      if (user.email === "admin@example.com") {
+        res.status(400).send({ message: "Can Not Delete Admin User" });
         return;
       }
       const deleteUser = await user.remove();
-      res.send({ message: 'User Deleted', user: deleteUser });
+      res.send({ message: "User Deleted", user: deleteUser });
     } else {
-      res.status(404).send({ message: 'User Not Found' });
+      res.status(404).send({ message: "User Not Found" });
     }
   })
 );
 
 userRouter.put(
-  '/:id',
+  "/:id",
   isAuth,
   expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
@@ -138,9 +177,9 @@ userRouter.put(
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
       const updatedUser = await user.save();
-      res.send({ message: 'User Updated', user: updatedUser });
+      res.send({ message: "User Updated", user: updatedUser });
     } else {
-      res.status(404).send({ message: 'User Not Found' });
+      res.status(404).send({ message: "User Not Found" });
     }
   })
 );

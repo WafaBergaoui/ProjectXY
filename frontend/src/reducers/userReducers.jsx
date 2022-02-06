@@ -1,5 +1,4 @@
 import {
-  USER_ADDRESS_MAP_CONFIRM,
   USER_DELETE_FAIL,
   USER_DELETE_REQUEST,
   USER_DELETE_RESET,
@@ -27,8 +26,11 @@ import {
   USER_UPDATE_PROFILE_RESET,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_REQUEST,
-  USER_UPDATE_RESET,
   USER_UPDATE_SUCCESS,
+  USER_UPDATE_RESET,
+  USER_VERIFY_REQUEST,
+  USER_VERIFY_FAIL,
+  USER_VERIFY_SUCCESS,
 } from '../constants/userConstants';
 
 export const userRegisterReducer = (state = {}, action) => {
@@ -54,6 +56,18 @@ export const userSigninReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case USER_SIGNOUT:
       return {};
+    default:
+      return state;
+  }
+};
+export const userVerifyReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_VERIFY_REQUEST:
+      return { loading: true };
+    case USER_VERIFY_SUCCESS:
+      return { loading: false, userInfo: action.payload };
+    case USER_VERIFY_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }
@@ -134,15 +148,6 @@ export const userTopSellerListReducer = (state = { loading: true }, action) => {
       return { loading: false, users: action.payload };
     case USER_TOPSELLERS_LIST_FAIL:
       return { loading: false, error: action.payload };
-    default:
-      return state;
-  }
-};
-
-export const userAddressMapReducer = (state = {}, action) => {
-  switch (action.type) {
-    case USER_ADDRESS_MAP_CONFIRM:
-      return { address: action.payload };
     default:
       return state;
   }
