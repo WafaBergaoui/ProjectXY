@@ -6,7 +6,6 @@ import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { MDBCheckbox } from "mdb-react-ui-kit";
 
-
 export default function Register(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
