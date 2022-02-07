@@ -14,32 +14,38 @@ const userRouter = express.Router();
 userRouter.post(
   "/signin",
   expressAsyncHandler(async (req, res) => {
-    User.findOne({ email: req.body.email });
-    res.status(401).send({ message: "Invalid email or password" });
-    var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+    User.findOne({ email: req.body.email }).exec((err, user) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+      if (!user) {
+        return res.status(404).send({ message: "User Not found." });
+      }
+      var passwordIsValid = bcrypt.compareSync(
+        req.body.password,
+        user.password
+      );
 
-    if (!user) {
-      return res.status(404).send({ message: "User Not found." });
-    }
+      if (!passwordIsValid) {
+        return res.status(401).send({
+          accessToken: null,
+          message: "Invalid Password!",
+        });
+      }
 
-    if (!passwordIsValid) {
-      return res.status(401).send({
-        accessToken: null,
-        message: "Invalid Password!",
+      if (user.status != "Active") {
+        return res.status(401).send({
+          message: "Pending Account. Please Verify Your Email!",
+        });
+      }
+
+      res.status(200).send({
+        name: user.name,
+        email: user.email,
+        accessToken: generateToken(user),
+        status: user.status,
       });
-    }
-
-    if (user.status != "Active") {
-      return res.status(401).send({
-        message: "Pending Account. Please Verify Your Email!",
-      });
-    }
-
-    res.status(200).send({
-      name: user.name,
-      email: user.email,
-      accessToken: generateToken(user),
-      status: user.status,
     });
   })
 );
