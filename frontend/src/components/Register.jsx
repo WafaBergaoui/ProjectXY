@@ -22,6 +22,7 @@ export default function Register(props) {
       alert("Password and confirm password are not match");
     } else {
       dispatch(register(name, email, password));
+      alert("User was registered successfully! Please check your email");
     }
   };
 

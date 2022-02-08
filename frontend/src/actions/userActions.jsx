@@ -68,6 +68,7 @@ export const signin = (email, password) => async (dispatch) => {
     const { data } = await axios.post(`/api/users/signin`, { email, password });
     dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
     localStorage.setItem("userInfo", JSON.stringify(data));
+    document.location.href = "/";
   } catch (error) {
     dispatch({
       type: USER_SIGNIN_FAIL,
