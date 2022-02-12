@@ -164,8 +164,8 @@
 .grid-container {
   display: grid;
   grid-template-areas:
-    'header'
-    'main';
+    "header"
+    "main";
   grid-template-columns: 1fr;
   grid-template-rows: 5rem 1fr 5rem;
   height: 100%;
@@ -173,13 +173,13 @@
 header {
   grid-area: header;
   background-color: green;
-  position: sticky; top: 0;
+  position: sticky;
+  top: 0;
 }
 main {
   grid-area: main;
   padding: 1rem;
 }
-
 
 /* Header */
 header a {
@@ -191,7 +191,7 @@ a.brand {
   font-size: 3rem;
   font-weight: bold;
 }
-.badge { 
+.badge {
   background-color: #f02020;
   color: #ffffff;
   border-radius: 50%;
@@ -230,15 +230,13 @@ a.brand {
   padding: 1rem;
 }
 
-
-
 /* Dropdown */
 .dropdown {
   display: inline-block;
   position: relative;
 }
 .dropdown-content {
-  position: absolute ;
+  position: absolute;
   display: none;
   min-width: 12rem;
   padding: 1rem;
@@ -251,12 +249,6 @@ a.brand {
 .dropdown:hover .dropdown-content {
   display: block;
 }
-
-
-
-
-
-
 
 html {
   font-size: 62.5%; /* 16px x 62.5 = 10px = 1rem */
@@ -274,7 +266,6 @@ body {
 #root {
   height: 100%;
 }
-
 
 /* Common */
 h1 {
@@ -453,6 +444,22 @@ img.large {
   margin: 1rem 0;
 }
 
+i {
+  position: absolute;
+  top: 63%;
+  right: 3%;
+}
+i:hover {
+  color: #00fcb6;
+  cursor: pointer;
+}
+
+.pass-wrapper {
+  position: relative;
+  display: flex;
+  margin-bottom: 14px;
+}
+
 /* Checkout Steps */
 .checkout-steps > div {
   border-top: 0.3rem #c0c0c0 solid;
@@ -482,7 +489,6 @@ img.large {
 .table button {
   margin: 0 0.2rem;
 }
-
 
 /* Map */
 .full-container {
@@ -521,8 +527,6 @@ img.large {
 .pagination a.active {
   font-weight: bold;
 }
-
-
 
 /* Chatbox */
 .chatbox {

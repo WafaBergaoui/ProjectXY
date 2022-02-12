@@ -4,10 +4,18 @@ import { Link } from "react-router-dom";
 import { signin } from "../actions/userActions";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+const eye = <FontAwesomeIcon icon={faEye} />;
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordShown, setPasswordShown] = useState(false);
+
+  const togglePasswordVisiblity = () => {
+    setPasswordShown(passwordShown ? false : true);
+  };
 
   const userSignin = useSelector((state) => state.userSignin);
   const { loading, error } = userSignin;
@@ -36,15 +44,17 @@ const Login = (props) => {
             onChange={(e) => setEmail(e.target.value)}
           ></input>
         </div>
-        <div>
+        <div className="pass-wrapper">
           <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
             placeholder="password"
             required
+            type={passwordShown ? "text" : "password"}
             onChange={(e) => setPassword(e.target.value)}
           ></input>
+          <i onClick={togglePasswordVisiblity}>{eye}</i>
         </div>
         <div>
           <label />

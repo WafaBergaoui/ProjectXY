@@ -6,14 +6,23 @@ import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { MDBCheckbox } from "mdb-react-ui-kit";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+const eye = <FontAwesomeIcon icon={faEye} />;
+
 export default function Register(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordShown, setPasswordShown] = useState(false);
 
   const userRegister = useSelector((state) => state.userRegister);
   const { loading, error } = userRegister;
+
+  const togglePasswordVisiblity = () => {
+    setPasswordShown(passwordShown ? false : true);
+  };
 
   const dispatch = useDispatch();
   const submitHandler = (e) => {
@@ -54,26 +63,32 @@ export default function Register(props) {
             onChange={(e) => setEmail(e.target.value)}
           ></input>
         </div>
-        <div>
+        <div className="pass-wrapper">
           <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
             placeholder="password"
             required
+            type={passwordShown ? "text" : "password"}
             onChange={(e) => setPassword(e.target.value)}
           ></input>
+          <i onClick={togglePasswordVisiblity}>{eye}</i>
         </div>
-        <div>
+
+        <div className="pass-wrapper">
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input
             type="password"
             id="confirmPassword"
             placeholder="confirm password"
             required
+            type={passwordShown ? "text" : "password"}
             onChange={(e) => setConfirmPassword(e.target.value)}
           ></input>
+          <i onClick={togglePasswordVisiblity}>{eye}</i>
         </div>
+
         <div>
           <MDBCheckbox
             name="flexCheck"
