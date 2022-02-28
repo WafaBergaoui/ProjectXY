@@ -43,10 +43,49 @@ const port = process.env.PORT || 5000;
 const server = http.Server(app);
 const io = new Server(server);
 
+//Listen to events from client
 io.on("connection", (socket) => {
-  console.log("a user connected");
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
+  console.log("New connection", socket.id);
+  socket.on("joinRoom", ({ user, room }) => {
+    socket.join(room);
+    addUser({
+      username: user,
+      room,
+      id: socket.id,
+    });
+    socket.on("userPlayed", (data) => {
+      socket.broadcast.to(room).emit("userPlayed", data);
+    });
+
+    socket.on("playAgain", (nextPlayer) => {
+      io.to(room).emit("playAgain", nextPlayer);
+    });
+
+    socket.on("newChallenger", () => {
+      socket.broadcast.to(room).emit("newChallenger");
+    });
+
+    socket.on("exitGame", (r) => {
+      socket.broadcast.to(room).emit("exitGame");
+      removeUserFromRoom(r);
+    });
+
+    socket.on("typing", () => {
+      socket.broadcast.to(room).emit("typing");
+    });
+
+    socket.on("notTyping", () => {
+      socket.broadcast.to(room).emit("notTyping");
+    });
+
+    socket.on("newMessage", (message) => {
+      socket.broadcast.to(room).emit("newMessage", message);
+    });
+
+    socket.on("disconnect", () => {
+      removeUser(socket.id);
+      socket.broadcast.to(room).emit("exitGame");
+    });
   });
 });
 
