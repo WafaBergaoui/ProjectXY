@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from "./Button";
 import ViewButton from "./ViewButton";
 import ViewButtonResult from "./ViewButtonResult";
+import io from "socket.io-client";
 import "../app.css";
 
 /* 
@@ -17,6 +18,7 @@ const populateBtnList = () => {
   }
   return temp;
 };
+const _socket = io.connect();
 
 const Play = () => {
   const LeftCounter = [8, 7, 6, 5, 4, 3, 2, 1]; // Y axsis numbers
