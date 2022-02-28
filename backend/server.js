@@ -1,10 +1,11 @@
-import http from 'http';
-import express from 'express';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import path from 'path';
-import cors from 'cors';
-import userRouter from './routers/userRouter.js';
+import http from "http";
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import path from "path";
+import cors from "cors";
+import userRouter from "./routers/userRouter.js";
+import { Server } from "socket.io";
 
 dotenv.config();
 
@@ -12,26 +13,26 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect(process.env.MONGODB_URL, {
+mongoose
+  .connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  }).then(()=>{
+  })
+  .then(() => {
     console.log("conected to mongodb");
-  }).catch(error => {
-    console.log("mongo error",error);
+  })
+  .catch((error) => {
+    console.log("mongo error", error);
   });
 
 app.use(cors({ origin: true }));
-app.use('/api/users', userRouter);
+app.use("/api/users", userRouter);
 
 const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, '/frontend/build')));
-app.get('*', (req, res) =>
-  res.sendFile(path.join(__dirname, '/frontend/build/index.html'))
+app.use(express.static(path.join(__dirname, "/frontend/build")));
+app.get("*", (req, res) =>
+  res.sendFile(path.join(__dirname, "/frontend/build/index.html"))
 );
-// app.get('/', (req, res) => {
-//   res.send('Server is ready');
-// });
 
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
@@ -39,10 +40,16 @@ app.use((err, req, res, next) => {
 
 const port = process.env.PORT || 5000;
 
-const httpServer = http.Server(app);
-const users = [];
+const server = http.Server(app);
+const io = new Server(server);
 
+io.on("connection", (socket) => {
+  console.log("a user connected");
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
 
-httpServer.listen(port, () => {
+server.listen(port, () => {
   console.log(`Serve at http://localhost:${port}`);
 });
