@@ -13,6 +13,12 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+import {
+  addUser,
+  removeUserFromRoom,
+  removeUser,
+} from "./user.js";
+
 mongoose
   .connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,

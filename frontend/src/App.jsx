@@ -2,11 +2,11 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signout } from "./actions/userActions";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import Home from "./components/Home";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Play from "./components/Play";
-import Welcome from "./components/Welcome";
+import Home from "./screens/HomeScreen";
+import Login from "./screens/LoginScreen";
+import Register from "./screens/RegisterScreen";
+import Play from "./screens/PlayScreen";
+import Welcome from "./screens/WelcomeScreen";
 
 const App = () => {
   const userSignin = useSelector((state) => state.userSignin);

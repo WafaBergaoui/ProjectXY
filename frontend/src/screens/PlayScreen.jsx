@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Button from "./Button";
-import ViewButton from "./ViewButton";
-import ViewButtonResult from "./ViewButtonResult";
+import Button from "../components/Button";
+import ViewButton from "../components/ViewButton";
+import ViewButtonResult from "../components/ViewButtonResult";
 import io from "socket.io-client";
 import "../app.css";
 
@@ -20,7 +20,7 @@ const populateBtnList = () => {
 };
 const _socket = io.connect();
 
-const Play = () => {
+const PlayScreen = () => {
   const LeftCounter = [8, 7, 6, 5, 4, 3, 2, 1]; // Y axsis numbers
   const bottomCounter = [1, 2, 3, 4, 5, 6, 7, 8]; // X axsis numbers
   const [startMessage, setStartMessage] = useState("Start"); // command messages:- start or choose or M or A
@@ -681,4 +681,4 @@ const Play = () => {
   );
 };
 
-export default Play;
+export default PlayScreen;
