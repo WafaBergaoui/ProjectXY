@@ -7,17 +7,19 @@ import cors from "cors";
 import userRouter from "./routers/userRouter.js";
 import { Server } from "socket.io";
 
+import {
+  addUser,
+  removeUserFromRoom,
+  removeUser,
+  getWaitingUsers,
+} from "./user.js";
+
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-import {
-  addUser,
-  removeUserFromRoom,
-  removeUser,
-} from "./user.js";
 
 mongoose
   .connect(process.env.MONGODB_URL, {
@@ -33,6 +35,11 @@ mongoose
 
 app.use(cors({ origin: true }));
 app.use("/api/users", userRouter);
+//API GET
+app.get("/api/user", (req, res) => {
+  res.send(getWaitingUsers());
+});
+
 
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, "/frontend/build")));
@@ -59,6 +66,7 @@ io.on("connection", (socket) => {
       room,
       id: socket.id,
     });
+    console.log(user);
     socket.on("userPlayed", (data) => {
       socket.broadcast.to(room).emit("userPlayed", data);
     });
@@ -86,6 +94,10 @@ io.on("connection", (socket) => {
 
     socket.on("newMessage", (message) => {
       socket.broadcast.to(room).emit("newMessage", message);
+    });
+    
+    socket.on("connect_error", (err) => {
+      console.log(`connect_error due to ${err.message}`);
     });
 
     socket.on("disconnect", () => {

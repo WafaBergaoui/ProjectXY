@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Button from "../components/Button";
 import ViewButton from "../components/ViewButton";
 import ViewButtonResult from "../components/ViewButtonResult";
 import io from "socket.io-client";
 import "../app.css";
+
+import { GameContext } from "../context/GameContext";
+import { SocketContext } from "../context/SocketContext";
+import { MessagesContext } from "../context/MessagesContext";
+import { UserContext } from "../context/UserContext";
 
 /* 
 I thought that only Home component needs a comment and 
@@ -14,7 +19,7 @@ the other components are easy to understand, if you already have some background
 const populateBtnList = () => {
   let temp = [];
   for (let i = 0; i < 64; i++) {
-    temp.push({ index: i, showMe: false }); 
+    temp.push({ index: i, showMe: false });
   }
   return temp;
 };
@@ -30,6 +35,7 @@ const PlayScreen = () => {
   const FA = 1; // A - for first button
   const SM = 2; // M - for second button
   const SA = 2; // A - for second button
+  const { user: _user, room: _room, player: _player } = useContext(UserContext);
 
   const [selectedTitle, setSelectedTitle] = useState("");
   const [xposition, setXPosition] = useState(""); // x - coordinate for 1st position

@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-
 import styles from "./ChooseOpponent.module.css";
 
 import { HomeContext } from "../context/HomeContext";
@@ -15,10 +14,11 @@ export default function ChooseOpponent() {
 
   useEffect(() => {
     const fetchOpponents = setInterval(() => {
-      fetch("/api/users")
+      fetch("/api/user")
         .then((response) => response.json())
         .then((data) => {
           setOpponents(data);
+          console.log(data);
         })
         .catch((err) => {
           console.log(err);

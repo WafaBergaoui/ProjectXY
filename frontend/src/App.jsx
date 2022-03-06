@@ -7,6 +7,11 @@ import Login from "./screens/LoginScreen";
 import Register from "./screens/RegisterScreen";
 import Play from "./screens/PlayScreen";
 import Welcome from "./screens/WelcomeScreen";
+import { HomeProvider } from "./context/HomeContext";
+import { GameProvider } from "./context/GameContext";
+import { SocketProvider } from "./context/SocketContext";
+import { MessagesProvider } from "./context/MessagesContext";
+import { UserProvider } from "./context/UserContext";
 
 const App = () => {
   const userSignin = useSelector((state) => state.userSignin);
@@ -54,9 +59,23 @@ const App = () => {
         </div>
 
         <main>
+          <UserProvider>
+            <GameProvider>
+              <HomeProvider>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                </Routes>
+              </HomeProvider>
+              <MessagesProvider>
+                <SocketProvider>
+                  <Routes>
+                    <Route path="/play" element={<Play />} />
+                  </Routes>
+                </SocketProvider>
+              </MessagesProvider>
+            </GameProvider>
+          </UserProvider>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/play" element={<Play />} />
             <Route path="/signin" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/confirm/:confirmationCode" element={<Welcome />} />
