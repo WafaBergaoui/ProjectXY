@@ -3,7 +3,6 @@ import { GameContext } from "../context/GameContext";
 import { UserContext } from "../context/UserContext";
 import { HomeContext } from "../context/HomeContext";
 
-import ChooseMode from "../components/ChooseMode";
 import ChooseOpponent from "../components/ChooseOpponent";
 import ChooseUsername from "../components/ChooseUsername";
 

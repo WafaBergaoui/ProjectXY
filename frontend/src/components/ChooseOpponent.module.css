@@ -30,7 +30,7 @@
 
 .opponent:hover {
     color: #e6e6e3;
-    background: #f44;
+    background: green;
 }
 
 .opponents a {
@@ -46,7 +46,7 @@
     margin: 10px;
     font-weight: 700;
     color: #e6e6e3;
-    background: #f44;
+    background: green;
     outline: none;
     cursor: pointer;
     transition: all 0.3s;

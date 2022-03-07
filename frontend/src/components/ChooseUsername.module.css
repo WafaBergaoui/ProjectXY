@@ -9,14 +9,14 @@
     border-radius: 20px;
     font-weight: 700;
     color: #e6e6e3;
-    background: #f44;
+    background: green;
     outline: none;
     cursor: pointer;
     transition: all 0.3s;
 }
 
 .button:hover {
-    color: #f44;
+    color: green;
     background: #e6e6e3;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .form_group small {
-    color: #f44;
+    color: green;
     display: block;
     text-align: left;
     padding: 0 15px;
