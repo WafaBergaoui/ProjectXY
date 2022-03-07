@@ -2,8 +2,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signout } from "./actions/userActions";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import ChooseOpponentScreen from "./screens/ChooseOpponentScreen";
 import Home from "./screens/HomeScreen";
-import OpponentScreen from "./screens/OpponentScreen";
 import Login from "./screens/LoginScreen";
 import Register from "./screens/RegisterScreen";
 import Play from "./screens/PlayScreen";
@@ -35,7 +35,7 @@ const App = () => {
                 </Link>
                 <ul className="dropdown-content">
                   <li>
-                    <Link to="/Opponent">VS Player</Link>
+                    <Link to="/chooseOpponent">VS Player</Link>
                   </li>
                   <li>
                     <Link to="/play">VS AI</Link>
@@ -64,7 +64,10 @@ const App = () => {
             <GameProvider>
               <HomeProvider>
                 <Routes>
-                  <Route path="/Opponent" element={<OpponentScreen />} />
+                  <Route
+                    path="/chooseOpponent"
+                    element={<ChooseOpponentScreen />}
+                  />
                 </Routes>
               </HomeProvider>
               <MessagesProvider>

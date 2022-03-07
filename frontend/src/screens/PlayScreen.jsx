@@ -23,7 +23,6 @@ const populateBtnList = () => {
   }
   return temp;
 };
-const _socket = io.connect();
 
 const PlayScreen = () => {
   const LeftCounter = [8, 7, 6, 5, 4, 3, 2, 1]; // Y axsis numbers
@@ -35,7 +34,6 @@ const PlayScreen = () => {
   const FA = 1; // A - for first button
   const SM = 2; // M - for second button
   const SA = 2; // A - for second button
-  const { user: _user, room: _room, player: _player } = useContext(UserContext);
 
   const [selectedTitle, setSelectedTitle] = useState("");
   const [xposition, setXPosition] = useState(""); // x - coordinate for 1st position
@@ -65,6 +63,28 @@ const PlayScreen = () => {
   const handleBtnTitle = (title) => {
     setSelectedTitle(title.charAt(0));
   };
+  const {
+    squares: _squares,
+    winner: _winner,
+    isX: _isX,
+    multiplayer: _multiplayer,
+    nextPlayer: _nextPlayer,
+  } = useContext(GameContext);
+
+  const { user: _user, room: _room, player: _player } = useContext(UserContext);
+
+  const [user] = _user;
+  const [room] = _room;
+  const [player, setPlayer] = _player;
+  const [nextPlayer, setNextPlayer] = _nextPlayer;
+
+  const [socket, setSocket] = useContext(SocketContext);
+  const [winner, setWinner] = _winner;
+  const [isX, setIsX] = _isX;
+  const [multiplayer] = _multiplayer;
+  const [exit, setExit] = useState(false);
+  const [text, setText] = useState("");
+  const [typing, setTyping] = useState(false);
 
   // start the program
   const handleStart = () => {
@@ -340,6 +360,55 @@ const PlayScreen = () => {
       return "";
     }
   };
+
+  useEffect(() => {
+    if (!multiplayer) {
+      setPlayer("X");
+      setIsX(true);
+    } else {
+      const _socket = io.connect();
+      _socket.emit("joinRoom", {
+        user,
+        room,
+      });
+
+      setSocket(_socket);
+
+      _socket.on("userPlayed", ({ squares, isX }) => {
+        setIsX(isX);
+      });
+
+      _socket.on("typing", () => setTyping(true));
+      _socket.on("notTyping", () => setTyping(false));
+
+      _socket.on("playAgain", (nextPlayer) => {
+        setNextPlayer(nextPlayer === "X" ? "O" : "X");
+        setWinner("");
+      });
+
+      _socket.on("newChallenger", () => {
+        console.log("new challenger");
+        setExit(false);
+      });
+
+      _socket.on("newMessage", () => {
+        console.log("new message");
+      });
+
+      _socket.on("exitGame", () => {
+        setExit(true);
+      });
+
+      if (player === "X") {
+      } else {
+        _socket.emit("newChallenger");
+      }
+
+      return function () {
+        multiplayer && _socket.disconnect();
+      };
+    }
+  }, []);
 
   // calc the X coordinates of btns
   const calcXPosition = (index) => {

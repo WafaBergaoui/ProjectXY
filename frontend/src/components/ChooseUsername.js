@@ -42,7 +42,7 @@ export default function ChooseUsername() {
   };
 
   if (redirect) {
-    setComponent('ChooseMode');
+    setComponent('ChooseOpponent');
     return <Navigate to="/play" replace={true} />;
 
   }
